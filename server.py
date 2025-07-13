@@ -13,6 +13,9 @@ def emotionDetector():
     textToAnalyze = request.args.get("textToAnalyze")
     result = emotion_detector(textToAnalyze)
     data = json.loads(result)
+    if data['dominant_emotion'] is None:
+        return '<b>Invalid text! Please try again!</b>'
+
     response_text = 'For the given statement, the system response is '
     for key, val in data.items():
         if key != 'dominant_emotion':
