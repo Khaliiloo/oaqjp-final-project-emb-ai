@@ -3,7 +3,7 @@ The flask main server
 """
 import json
 from flask import Flask, request, render_template
-import emotion_detection
+from EmotionDetection.emotion_detection import emotion_detector
 app = Flask(__name__)
 
 @app.get("/")
@@ -19,9 +19,8 @@ def emotion_detector_api():
         Route of call emotion_detector and get text analysis
     """
     text_to_analyze = request.args.get("textToAnalyze")
-    result = emotion_detection.emotion_detector(text_to_analyze)
+    result = emotion_detector(text_to_analyze)
     data = json.loads(result)
-    
     if data['dominant_emotion'] is None:
         return '<b>Invalid text! Please try again!</b>'
 
