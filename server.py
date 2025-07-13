@@ -1,18 +1,27 @@
-from flask import Flask, request, render_template
-from emotion_detection import emotion_detector
+"""
+The flask main server
+"""
 import json
-
+from flask import Flask, request, render_template
+import emotion_detection
 app = Flask(__name__)
 
 @app.get("/")
 def index():
+    """
+        home route
+    """
     return render_template("index.html")
 
-@app.get("/emotionDetector")
-def emotionDetector():
-    textToAnalyze = request.args.get("textToAnalyze")
-    result = emotion_detector(textToAnalyze)
+@app.get("/emotion_detector_api")
+def emotion_detector_api():
+    """
+        Route of call emotion_detector and get text analysis
+    """
+    text_to_analyze = request.args.get("textToAnalyze")
+    result = emotion_detection.emotion_detector(text_to_analyze)
     data = json.loads(result)
+    
     if data['dominant_emotion'] is None:
         return '<b>Invalid text! Please try again!</b>'
 
